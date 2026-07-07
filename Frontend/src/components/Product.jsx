@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../Context/Context";
-import axios from "../axios";
+import axios from "../axios"; // This already knows the Base URL!
 import { toast } from "react-toastify";
 
 const Product = () => {
@@ -11,14 +10,12 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
-  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `${baseUrl}/api/product/${id}`
-        );
+        // FIXED: Removed baseUrl
+        const response = await axios.get(`/api/product/${id}`);
         setProduct(response.data);
         console.log(response.data);
         if (response.data.imageName) {
@@ -30,18 +27,20 @@ const Product = () => {
     };
 
     const fetchImage = async () => {
-      const response = await axios.get(
-        `${baseUrl}/api/product/${id}/image`,
-        { responseType: "blob" }
-      );
+      // FIXED: Removed baseUrl
+      const response = await axios.get(`/api/product/${id}/image`, { 
+        responseType: "blob" 
+      });
       setImageUrl(URL.createObjectURL(response.data));
     };
+    
     fetchProduct();
   }, [id]);
 
   const deleteProduct = async () => {
     try {
-      await axios.delete(`${baseUrl}/api/product/${id}`);
+      // FIXED: Removed baseUrl
+      await axios.delete(`/api/product/${id}`);
       removeFromCart(id);
       console.log("Product deleted successfully");
       toast.success("Product deleted successfully");

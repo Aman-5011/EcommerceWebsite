@@ -15,7 +15,7 @@ const AddProduct = () => {
     productAvailable: false,
   });
 
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+  // REMOVED: const baseUrl = import.meta.env.VITE_BASE_URL;
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -91,8 +91,9 @@ const AddProduct = () => {
       new Blob([JSON.stringify(product)], { type: "application/json" })
     );
 
+    // FIXED: Removed baseUrl, only use the endpoint path starting with /
     axios
-      .post(`${baseUrl}/api/product`, formData, {
+      .post(`/api/product`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
@@ -125,7 +126,9 @@ const AddProduct = () => {
 
   return (
     <div className="container mt-5 pt-4">
+      {/* ... rest of your JSX remains exactly the same ... */}
       <form noValidate onSubmit={submitHandler} className="row g-4">
+        {/* ... keep all existing form inputs ... */}
         <div className="col-md-6">
           <label>Name</label>
           <input
