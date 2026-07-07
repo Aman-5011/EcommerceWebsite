@@ -34,6 +34,6 @@ public class ProductService {
     }
 
     public List<Product> searchProduct(String value) {
-        return productrepo.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(value,value,value,value);
+        return productrepo.searchProducts(value);
     }
 }
